@@ -1,28 +1,32 @@
 // exemplo do lado do servidor
 // a2.4/pages/posts/index.js
-import dados from '../../dados.json';
 
-export const getServerSideProps = (context) => {
-  const posts = dados.posts.filter((post) => post.date === context.query.date);
-  console.log(context.query);
+export const getServerSideProps =  async (context) => {
+    const dadosDaAPI = await fetch('https://fakeapi-omariosouto.vercel.app/api/posts/')
+        .then((res) => res.json());
 
-  return {
-    props: {
-      posts,
-    },
-  };
+    const posts = dadosDaAPI.posts;
+
+    const post = posts.filter((post_) => post_.date === context.query.date);
+    console.log(context.query);  
+
+    return {
+        props: {
+            post,
+        },
+    };
 };
 
 export default function Posts(props) {
-  return (
-    <div>
-      {props.posts.length > 0 ? (
-        props.posts.map((post) => (
-          <pre key={post.id}>{JSON.stringify(post, null, 2)}</pre>
-        ))
-      ) : (
-        <p>Nenhum post encontrado</p>
-      )}
-    </div>
-  );
+    return (
+        <div>
+        {props.post.length > 0 ? (
+            props.post.map((post) => (
+            <pre key={post.id}>{JSON.stringify(post, null, 2)}</pre>
+            ))
+        ) : (
+            <p>Nenhum post encontrado</p>
+        )}
+        </div>
+    );
 }
