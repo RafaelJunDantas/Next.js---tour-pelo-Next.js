@@ -5,7 +5,7 @@ function HomePage() {
     <div>
       Welcome to Next.js!
 
-      <img src="/images/maca.png" />
+      <img src="images\maca.png"/>
 
       <ul>
         <li>
